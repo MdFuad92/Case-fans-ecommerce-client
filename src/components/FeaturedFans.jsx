@@ -9,7 +9,7 @@ const FeaturedFans = () => {
     const [fans, setfans] = useState([]);
     const [count, setCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(6)
+    const [itemsPerPage, setItemsPerPage] = useState(8)
     const [filter, setFilter] = useState("");
 
     // categoriaztion
