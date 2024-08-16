@@ -228,7 +228,7 @@ const FeaturedFans = () => {
 
                 </form>
             </div>
-            <div className="flex justify-between items-center my-10">
+            <div className="flex md:flex-row flex-col  md:justify-between items-center my-10">
                 <div>
                     <details className="dropdown mr-5">
                         <summary className="m-1 ">Date Added</summary>
@@ -240,14 +240,14 @@ const FeaturedFans = () => {
 
                     <details className="dropdown">
                         <summary className="m-1 ">Price</summary>
-                        <ul className="p-2 shadow menu dropdown-content z-[1]  bg-base-100 rounded-box md:w-32 w-20">
+                        <ul className="p-2 shadow menu dropdown-content z-[1]  bg-base-100 rounded-box w-32 w-20">
                             <li onClick={() => { handlepriceAscend('price') }} ><a>Low - High</a></li>
                             <li onClick={() => { handlepriceDescend('price') }} ><a>High - Low</a></li>
                         </ul>
                     </details>
                 </div>
-              <div className="space-x-5">
-              <select name="brand" onChange={handleFilters} value={brandFilter} className="select border-[#6FB2C2] border w-52 max-w-xs">
+              <div className="md:space-x-5 text-center my-10 space-y-5">
+              <select name="brand" onChange={handleFilters} value={brandFilter} className="select select-info border w-52 max-w-xs">
                     <option disabled selected>Select Brand</option>
                     <option value="" >All Brands</option>
                     <option value="Corsair">Corsair</option>
@@ -267,7 +267,7 @@ const FeaturedFans = () => {
                     <option value="Scythe">Scythe</option>
                 
                 </select>
-                <select name="category" onChange={handleFilters} value={categoryFilter} className="select border-[#6FB2C2] border w-52 max-w-xs">
+                <select name="category" onChange={handleFilters} value={categoryFilter} className="select select-info w-52 max-w-xs">
                     <option disabled selected>Select Categories</option>
                     <option value="">ALL Categories</option>
                     <option value="Case Fan">Case Fan</option>
@@ -280,7 +280,7 @@ const FeaturedFans = () => {
                     <option value="ARGB Fan">ARGB Fan</option>
                     <option value="LED Fan">LED Fan</option>
                 </select>
-                <select name="priceRange" onChange={handleFilters} value={priceRangefilter.join('-')} className="select border-[#6FB2C2] border w-52 max-w-xs">
+                <select name="priceRange" onChange={handleFilters} value={priceRangefilter.join('-')} className="select select-info w-52 max-w-xs">
                         <option disabled selected>Select Price Range</option>
                         <option value="">All range</option>
                         <option value="1-10">1 - 10</option>

@@ -6,7 +6,7 @@ import truck from '../assets/fast-delivery.png'
 
 const Services = () => {
     return (
-        <div className='flex justify-between items-center bg-gray-100 border my-10 p-20'>
+        <div className='md:flex grid grid-cols-1 justify-between items-center bg-gray-100 border my-10 p-20'>
         <div className='flex items-center gap-3'>
            <img className='w-20' src={truck} alt="" />
             <p className='text-xl font-bold'>Super Fast Shipping</p>

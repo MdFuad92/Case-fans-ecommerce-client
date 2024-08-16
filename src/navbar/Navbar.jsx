@@ -19,8 +19,8 @@ const Navbar = () => {
     <li><Link to={'/'} >Home </Link> </li>
     <li><a href="#Featured">Products</a></li>
     <li><a href="#Sponsors">Sponsors</a></li>
-    <li><Link>About</Link></li>
-    <li><Link>Contact</Link></li>
+    <li><a href="#About">About</a></li>
+    <li><a href="#Contact">Contact</a></li>
 
   </>
   return (

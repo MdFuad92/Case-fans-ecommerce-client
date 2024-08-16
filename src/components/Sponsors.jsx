@@ -2,7 +2,7 @@ import React from 'react';
 
 const Sponsors = () => {
     return (
-        <section id='Sponsors' className=" p-6 dark:bg-gray-100 dark:text-gray-800">
+        <section id='Sponsors' className=" p-6 dark:bg-gray-100 dark:text-gray-800 my-10">
         <div className="container p-4 mx-auto text-center">
             <h2 className="text-4xl font-bold">Sponsored by the industry leaders</h2>
         </div>
