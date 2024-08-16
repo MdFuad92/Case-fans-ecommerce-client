@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../hook/useAuth';
+import { Button } from '@ariakit/react';
+
 
 const Navbar = () => {
   const { user, logOut } = useAuth()
@@ -16,7 +18,7 @@ const Navbar = () => {
 
     <li><Link to={'/'} >Home </Link> </li>
     <li><a href="#Featured">Products</a></li>
-    <li><Link>Services</Link></li>
+    <li><a href="#Sponsors">Sponsors</a></li>
     <li><Link>About</Link></li>
     <li><Link>Contact</Link></li>
 
@@ -45,13 +47,14 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className="text-3xl font-semibold text-[#6FB2C2]">FROZEN<span className='font-extrabold font-sans text-blue-950'>CPU</span></a>
+        <a className="text-3xl font-semibold text-[#6FB2C2]">FROZEN<span className='font-extrabold font-sans text-gray-900'>CPU</span></a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           {links}
         </ul>
       </div>
+    
 
       <div className="navbar-end">
         {
@@ -74,8 +77,9 @@ const Navbar = () => {
                 <button onClick={handlelogOut}><a>Logout</a></button>
               </ul>
             </div> :
-            <div>
+            <div className='space-x-4'>
               <Link to='/login'><button className='btn'>Login</button></Link>
+              <Link to='/register'><button className='btn'>Signup</button></Link>
             </div>
         }
       </div>

@@ -11,6 +11,7 @@ const FeaturedFans = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(8)
     const [filter, setFilter] = useState("");
+    const [loading,setLoading] = useState(true)
 
     // categoriaztion
     const [brandFilter, setBrandfilter] = useState("")
@@ -31,6 +32,7 @@ const FeaturedFans = () => {
 
     useEffect(() => {
        const fetchData = async()=>{
+        setLoading(true)
         const res = await axiosPublic.get(`/pagination`,{
             params: {
                 page: currentPage,
@@ -47,6 +49,7 @@ const FeaturedFans = () => {
         setCount(totalCount) 
         const sortedProducts = products.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         setfans(sortedProducts);
+        setLoading(false)
        }
 
        fetchData()
@@ -182,8 +185,8 @@ const FeaturedFans = () => {
                     <button
                         onClick={() => handlePaginationBtn(btnNum)}
                         key={btnNum}
-                        className={`hidden px-4 py-2 ${currentPage === btnNum ? "bg-blue-950 text-white" : ""
-                            } mx-1 transition-colors duration-300 transform  rounded-md sm:inline hover:bg-blue-950 hover:text-white`}
+                        className={`hidden px-4 py-2 ${currentPage === btnNum ? "bg-blue-gray-900 text-white" : ""
+                            } mx-1 transition-colors duration-300 transform  rounded-md sm:inline hover:bg-blue-gray-800 hover:text-white`}
                     >
                         {btnNum}
                     </button>
@@ -244,12 +247,12 @@ const FeaturedFans = () => {
                     </details>
                 </div>
               <div className="space-x-5">
-              <select name="brand" onChange={handleFilters} value={brandFilter} className="select select-info w-52 max-w-xs">
+              <select name="brand" onChange={handleFilters} value={brandFilter} className="select border-[#6FB2C2] border w-52 max-w-xs">
                     <option disabled selected>Select Brand</option>
                     <option value="" >All Brands</option>
                     <option value="Corsair">Corsair</option>
                     <option value="Noctua">Noctua</option>
-                    <option value="Be quiet">be quiet!</option>
+                    <option value="Be Quiet!">Be quiet!</option>
                     <option value="Thermaltake" >Thermaltake</option>
                     <option value="NZXT">NZXT</option>
                     <option value="Arctic">Arctic</option>
@@ -264,7 +267,7 @@ const FeaturedFans = () => {
                     <option value="Scythe">Scythe</option>
                 
                 </select>
-                <select name="category" onChange={handleFilters} value={categoryFilter} className="select select-info w-52 max-w-xs">
+                <select name="category" onChange={handleFilters} value={categoryFilter} className="select border-[#6FB2C2] border w-52 max-w-xs">
                     <option disabled selected>Select Categories</option>
                     <option value="">ALL Categories</option>
                     <option value="Case Fan">Case Fan</option>
@@ -277,7 +280,7 @@ const FeaturedFans = () => {
                     <option value="ARGB Fan">ARGB Fan</option>
                     <option value="LED Fan">LED Fan</option>
                 </select>
-                <select name="priceRange" onChange={handleFilters} value={priceRangefilter.join('-')} className="select select-info w-52 max-w-xs">
+                <select name="priceRange" onChange={handleFilters} value={priceRangefilter.join('-')} className="select border-[#6FB2C2] border w-52 max-w-xs">
                         <option disabled selected>Select Price Range</option>
                         <option value="">All range</option>
                         <option value="1-10">1 - 10</option>
@@ -293,6 +296,9 @@ const FeaturedFans = () => {
             <div className="grid md:grid-cols-4 grid-cols-1 gap-5">
 
                 {
+                    loading?<span className="loading loading-spinner loading-lg"></span>
+                    : fans.length ===  0 ?
+                    <div className="text-center my-10">No products available</div>:
                     fans?.map((fan) =>
                         <div key={fan._id} className="border border-gray-600 text-center space-y-2 px-6 py-4 ">
 
