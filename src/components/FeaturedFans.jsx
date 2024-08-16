@@ -6,36 +6,65 @@ import useAxiosPublic from "../hook/useAxiosPublic";
 
 const FeaturedFans = () => {
 
-    const [jobs, setJobs] = useState([]);
+    const [fans, setfans] = useState([]);
     const [count, setCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6)
     const [filter, setFilter] = useState("");
 
+    // categoriaztion
+    const [brandFilter, setBrandfilter] = useState("")
+    const [categoryFilter, setCategoryfilter] = useState("")
+    const [priceRangefilter, setpriceRangefilter] = useState([1, 100])
+
     const axiosPublic = useAxiosPublic()
 
-    const [fans, refetch, isPending] = Fans()
+
 
     const handleSearch = (e) => {
         e.preventDefault()
         console.log(e.target.search.value)
         setFilter(e.target.search.value)
+        setCurrentPage(1)
 
     }
 
     useEffect(() => {
-        axiosPublic.get(`/pagination?page=${currentPage}&size=${itemsPerPage}&filter=${filter}`
-        ).then((res) => {
-            const sortedproducts = res.data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-            setJobs(sortedproducts)
-        });
-    }, [axiosPublic, currentPage, itemsPerPage, filter]);
+       const fetchData = async()=>{
+        const res = await axiosPublic.get(`/pagination`,{
+            params: {
+                page: currentPage,
+                size: itemsPerPage,
+                filter: filter,
+                brand: brandFilter,
+                category: categoryFilter,
+                minPrice: priceRangefilter[0],
+                maxPrice: priceRangefilter[1],
+            }
+        })
+        const {products, totalCount} = res.data
+        setfans(products)
+        setCount(totalCount) 
+       }
+
+       fetchData()
+    }, [ currentPage, itemsPerPage, filter,  brandFilter, categoryFilter, priceRangefilter]);
 
     useEffect(() => {
-        axiosPublic.get('/count').then((res) =>
-            setCount(res.data.count)
-        );
-    }, [axiosPublic]);
+        const fetchCount = async () => {
+            const response = await axiosPublic.get('/count', {
+                params: {
+                    brand: brandFilter,
+                    category: categoryFilter,
+                    minPrice: priceRangefilter[0],
+                    maxPrice: priceRangefilter[1],
+                },
+            });
+            setCount(response.data.count);
+        };
+
+        fetchCount();
+    }, [ brandFilter, categoryFilter, priceRangefilter]);
     console.log(count)
 
     const numberOfPages = Math.ceil(count / itemsPerPage);
@@ -48,9 +77,9 @@ const FeaturedFans = () => {
 
     const handleAscend = (ascend) => {
         if (ascend === 'timestamp') {
-            const sortedproducts = jobs.slice().sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
+            const sortedproducts = fans.slice().sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
             console.log(sortedproducts)
-            setJobs(sortedproducts)
+            setfans(sortedproducts)
 
 
         }
@@ -59,9 +88,9 @@ const FeaturedFans = () => {
 
     const handleDescend = (descend) => {
         if (descend === 'timestamp') {
-            const sortedproducts = jobs.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+            const sortedproducts = fans.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
             console.log(sortedproducts)
-            setJobs(sortedproducts)
+            setfans(sortedproducts)
 
 
         }
@@ -69,17 +98,40 @@ const FeaturedFans = () => {
 
     const handlepriceDescend = (descend) => {
         if (descend === 'price') {
-            const priceCount = jobs.slice().sort((a, b) => b.price - a.price)
-            setJobs(priceCount)
+            const priceCount = fans.slice().sort((a, b) => b.price - a.price)
+            setfans(priceCount)
 
         }
     }
     const handlepriceAscend = (ascend) => {
         if (ascend === 'price') {
-            const priceCount = jobs.slice().sort((a, b) => a.price - b.price)
-            setJobs(priceCount)
+            const priceCount = fans.slice().sort((a, b) => a.price - b.price)
+            setfans(priceCount)
 
         }
+    }
+
+    const handleFilters = (e) =>{
+
+     
+       const {name, value} = e.target
+
+       if(name === 'brand'){
+         setBrandfilter(value)
+       }
+
+       else if(name === 'category'){
+        setCategoryfilter(value)
+       }
+
+       else if(name === 'priceRange'){
+        const priceRange = value.split('-').map(Number)
+        setpriceRangefilter(priceRange)
+       }
+
+        //    pagination reset
+
+        setCurrentPage(1)
     }
 
 
@@ -171,25 +223,76 @@ const FeaturedFans = () => {
 
                 </form>
             </div>
-            <details className="dropdown mr-5">
-                <summary className="m-1 ">Date Added</summary>
-                <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-32">
-                    <li onClick={() => { handleDescend('timestamp') }} ><a>Latest </a></li>
-                    <li onClick={() => { handleAscend('timestamp') }} ><a>Oldest </a></li>
-                </ul>
-            </details>
+            <div className="flex justify-between items-center my-10">
+                <div>
+                    <details className="dropdown mr-5">
+                        <summary className="m-1 ">Date Added</summary>
+                        <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-32">
+                            <li onClick={() => { handleDescend('timestamp') }} ><a>Latest </a></li>
+                            <li onClick={() => { handleAscend('timestamp') }} ><a>Oldest </a></li>
+                        </ul>
+                    </details>
 
-            <details className="dropdown">
-                <summary className="m-1 ">Price</summary>
-                <ul className="p-2 shadow menu dropdown-content z-[1]  bg-base-100 rounded-box md:w-32 w-20">
-                    <li onClick={() => { handlepriceAscend('price') }} ><a>Low - High</a></li>
-                    <li onClick={() => { handlepriceDescend('price') }} ><a>High - Low</a></li>
-                </ul>
-            </details>
+                    <details className="dropdown">
+                        <summary className="m-1 ">Price</summary>
+                        <ul className="p-2 shadow menu dropdown-content z-[1]  bg-base-100 rounded-box md:w-32 w-20">
+                            <li onClick={() => { handlepriceAscend('price') }} ><a>Low - High</a></li>
+                            <li onClick={() => { handlepriceDescend('price') }} ><a>High - Low</a></li>
+                        </ul>
+                    </details>
+                </div>
+              <div className="space-x-5">
+              <select name="brand" onChange={handleFilters} value={brandFilter} className="select select-info w-52 max-w-xs">
+                    <option disabled selected>Select Brand</option>
+                    <option value="" >All Brands</option>
+                    <option value="Corsair">Corsair</option>
+                    <option value="Noctua">Noctua</option>
+                    <option value="Be quiet">be quiet!</option>
+                    <option value="Thermaltake" >Thermaltake</option>
+                    <option value="NZXT">NZXT</option>
+                    <option value="Arctic">Arctic</option>
+                    <option value="Fractal Design">Fractal Design</option>
+                    <option value="Lian Li">Lian Li</option>
+                    <option value="Phanteks">Phanteks</option>
+                    <option value="SilverStone">SilverStone</option>
+                    <option value="Deep Cool">Deep Cool</option>
+                    <option value="Enermax">Enermax</option>
+                    <option value="ID-COOLING">ID-COOLING</option>
+                    <option value="Zalman">Zalman</option>
+                    <option value="Vetroo">Vetroo</option>
+                    <option value="Scythe">Scythe</option>
+                
+                </select>
+                <select name="category" onChange={handleFilters} value={categoryFilter} className="select select-info w-52 max-w-xs">
+                    <option disabled selected>Select Categories</option>
+                    <option value="">ALL Categories</option>
+                    <option value="Case Fan">Case Fan</option>
+                    <option value="CPU Cooler Fan">CPU Cooler Fan</option>
+                    <option value="RGB Fan">RGB Fan</option>
+                    <option value="Silent Fan">Silent Fan</option>
+                    <option value="High Airflow Fan">High Airflow Fan</option>
+                    <option value="Radiator Fan">Radiator Fan</option>
+                    <option value="Slim Fan">Slim Fan</option>
+                    <option value="ARGB Fan">ARGB Fan</option>
+                    <option value="LED Fan">LED Fan</option>
+                </select>
+                <select name="priceRange" onChange={handleFilters} value={priceRangefilter.join('-')} className="select select-info w-52 max-w-xs">
+                        <option disabled selected>Select Price Range</option>
+                        <option value="">All range</option>
+                        <option value="1-10">1 - 100</option>
+                        <option value="11-20">101 - 200</option>
+                        <option value="21-30">201 - 300</option>
+                        <option value="31-40">301 - 400</option>
+                        <option value="41-50">401 - 500</option>
+                        <option value="51-100">501 - 1000</option>
+                    </select>
+
+              </div>
+            </div>
             <div className="grid md:grid-cols-4 grid-cols-1 gap-5">
 
                 {
-                    jobs?.map((fan) =>
+                    fans?.map((fan) =>
                         <div key={fan._id} className="border border-gray-600 text-center space-y-2 px-6 py-4 ">
 
 
