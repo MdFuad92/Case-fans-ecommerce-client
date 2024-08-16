@@ -45,6 +45,8 @@ const FeaturedFans = () => {
         const {products, totalCount} = res.data
         setfans(products)
         setCount(totalCount) 
+        const sortedProducts = products.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        setfans(sortedProducts);
        }
 
        fetchData()
@@ -141,7 +143,7 @@ const FeaturedFans = () => {
 
 
     return (
-        <div>
+        <div id="Featured">
             {/*  */}
 
             {/* pagination */}
@@ -255,7 +257,6 @@ const FeaturedFans = () => {
                     <option value="Lian Li">Lian Li</option>
                     <option value="Phanteks">Phanteks</option>
                     <option value="SilverStone">SilverStone</option>
-                    <option value="Deep Cool">Deep Cool</option>
                     <option value="Enermax">Enermax</option>
                     <option value="ID-COOLING">ID-COOLING</option>
                     <option value="Zalman">Zalman</option>
@@ -279,12 +280,12 @@ const FeaturedFans = () => {
                 <select name="priceRange" onChange={handleFilters} value={priceRangefilter.join('-')} className="select select-info w-52 max-w-xs">
                         <option disabled selected>Select Price Range</option>
                         <option value="">All range</option>
-                        <option value="1-10">1 - 100</option>
-                        <option value="11-20">101 - 200</option>
-                        <option value="21-30">201 - 300</option>
-                        <option value="31-40">301 - 400</option>
-                        <option value="41-50">401 - 500</option>
-                        <option value="51-100">501 - 1000</option>
+                        <option value="1-10">1 - 10</option>
+                        <option value="11-20">10 - 20</option>
+                        <option value="21-30">21 - 30</option>
+                        <option value="31-40">31 - 40</option>
+                        <option value="41-50">41 - 50</option>
+                        <option value="51-100">51 - 100</option>
                     </select>
 
               </div>

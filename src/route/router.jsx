@@ -6,6 +6,7 @@ import Main from "../layout/Main";
 import Home from "../home/Home";
 import Login from "../authroute/Login";
 import Register from "../authroute/Register";
+import FeaturedFans from "../components/FeaturedFans";
 
   const router = createBrowserRouter([
     {
@@ -24,7 +25,8 @@ import Register from "../authroute/Register";
         {
           path:'/register',
           element:<Register/>
-        }
+        },
+     
       ]
     },
   ]);
