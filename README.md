@@ -1,8 +1,17 @@
-# React + Vite
+# FROZENCPU
+Project-Overview:  An e-commerce website on pc cooling fans 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Live link: https://frozen-cpu.web.app/
 
-Currently, two official plugins are available:
+ **Features**:
+- implemented pagination
+- Have search filters and sorting functionality
+- implemented categorization so products can be selected through different categories
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+ **Resources**:
+- MongoDB for database : https://www.mongodb.com/
+- Tailwind-css: https://tailwindcss.com/docs/installation/framework-guides
+- Daisy-ui: https://daisyui.com/
+- Mamba-ui: https://mambaui.com/
+- Firebase: https://firebase.google.com/?gad_source=1&gclid=CjwKCAjw5v2wBhBrEiwAXDDoJWEX07f6laMpbyAa4PTr5cN4cGq765mVoFbOsHYCjb_sDl4MKhhOMxoCjiQQAvD_BwE&gclsrc=aw.ds
+- React-icon: https://www.npmjs.com/package/react-icons
